@@ -1,0 +1,12 @@
+#direccion, #contacto{
+	background-color: rgba(0,0,0,0.8);
+	color: #FFF;
+}
+
+#direccion{
+	font-size: 30px;
+}
+
+#contacto{
+	font-size: 18px;
+}

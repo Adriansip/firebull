@@ -1,0 +1,35 @@
+body{
+	background-color: rgba(0,0,0);
+}
+
+.contenido{
+	width: 100%;
+	background: url("../../imagenes/fondoextintor.png");
+	color: #000;
+}
+.toogle{
+	width: 100%;
+	text-align: center;
+	font-size: 4vw;
+	background-color: #FF6F00;
+	color: #FFF;
+}
+
+.contenido div{
+	display: none;
+}
+
+#descripcion0{
+	display: inline;
+	text-align: justify;
+}
+
+#descripcion0,#descripcion1,#descripcion2,#descripcion3{
+	font-size: 2.8vw;
+	background-color: rgba(255,255,255,0.4);
+	text-align: justify;
+}
+
+.img-res{
+	width: 5%;
+}

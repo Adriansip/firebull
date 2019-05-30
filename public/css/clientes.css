@@ -1,0 +1,25 @@
+.py-4{
+	/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#d0e4f7+0,73b1e7+27,0a77d5+46,539fe1+69,87bcea+100 */
+background: #d0e4f7; /* Old browsers */
+background: -moz-linear-gradient(-45deg, #d0e4f7 0%, #73b1e7 27%, #0a77d5 46%, #539fe1 69%, #87bcea 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(-45deg, #d0e4f7 0%,#73b1e7 27%,#0a77d5 46%,#539fe1 69%,#87bcea 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(135deg, #d0e4f7 0%,#73b1e7 27%,#0a77d5 46%,#539fe1 69%,#87bcea 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', endColorstr='#87bcea',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
+.img-clientes{
+	opacity: 0.7;
+}
+
+.alert.img-responsive{
+	/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#feccb1+0,f17432+31,ea5507+50,ea5507+50,fb955e+71 */
+background: #feccb1; /* Old browsers */
+background: -moz-linear-gradient(-45deg, #feccb1 0%, #f17432 31%, #ea5507 50%, #ea5507 50%, #fb955e 71%); /* FF3.6-15 */
+background: -webkit-linear-gradient(-45deg, #feccb1 0%,#f17432 31%,#ea5507 50%,#ea5507 50%,#fb955e 71%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(135deg, #feccb1 0%,#f17432 31%,#ea5507 50%,#ea5507 50%,#fb955e 71%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feccb1', endColorstr='#fb955e',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
+.titulo, .datosContacto{
+	font-size: 18px;
+}
