@@ -1,14 +1,20 @@
 $(document).ready(function() {
     getProductos(1);
-
-
 });
-
 
 $('a[data-toggle=tab]').on('click', function() {
     var idCategoria = $(this)[0].attributes.value.value;
-    getProductos(idCategoria);
-    $('#message').html('');
+    if (idCategoria != 0) {
+        getProductos(idCategoria);
+        $('#message').html('');
+    }
+});
+
+$('#btnFindProducto').click(function() {
+    var filtro = $('#txtfindProducto').val();
+    $('#nav-item-find').css('display', 'block');
+    $('#myTab li:last-child a').tab('show')
+    findProductos(filtro);
 });
 
 function getProductos(idCategoria) {
@@ -29,6 +35,26 @@ function getProductos(idCategoria) {
     });
 }
 
+function findProductos(producto) {
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: '/productos/' + producto,
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            //console.log(data);
+            drawProductos(data.productos, data.session);
+            showMessages(data);
+        },
+        error: function(data) {
+            //console.log(data);
+            drawProductos(data.responseJSON.productos, data.responseJSON.session);
+            showMessages(data.responseJSON);
+        }
+    });
+}
 
 function drawProductos(data, session) {
     var html = "";
@@ -50,10 +76,11 @@ function drawProductos(data, session) {
         html += "<div class='alert pl-1 pr-1'>";
         html += "<div class='row pl-2 pr-2'>";
         if (session) {
-            html += "<button class='btn btn-sm btn-info col-12 col-lg-2 offset-lg-1' onclick='addCantidad($(this))'><h3>+</h3></button>";
-            html += "<input type='number' class='col-lg-4 offset-lg-1 form-control cantidad text-center' name='cantidad' value='1' readonly>";
-            html += "<button class='btn btn-sm btn-info col-lg-2 offset-lg-1' onclick='lessCantidad($(this))'><h3>-</h3></button>";
-            html += "<button class='btn btn-lg btn-block btn-dark mt-2 col-12 col-lg-10 offset-lg-1' value='" + data[i].idProducto + "' onclick='addShopping($(this))'>Agregar</button>";
+            html += "<div class='form-group col-lg-12'>"
+            html += "<input type='number' class='form-control cantidad text-center' name='cantidad' value='1' min='1' max='1000'>";
+            html += "<div class='invalid-feedback' style='color: #fff;'>Ingrese un dato valido entre 1 y 1000</div>";
+            html += "<button class='btn btn-lg btn-block btn-dark mt-2' value='" + data[i].idProducto + "' onclick='addShopping($(this))'>Agregar</button>";
+            html += "</div>"
         } else {
             html += '<p class="text-center" style="color: white; font-size: 18px;">Inicia session o registrate para realizar el pedido de tu cotizacion</p>';
             html += '<a class="btn btn-info btn-lg btn-block mt-2 col-12 col-lg-10 offset-lg-1" href="/login">Loguearse</a>';
@@ -67,63 +94,50 @@ function drawProductos(data, session) {
     $('#contentProduct').html(html);
 }
 
-function addCantidad(boton) {
-    var input = boton.siblings()[0];
-    /*Obtener el input hermano para no afectar los demas*/
-    var cantidad = parseInt(input.value);
-    if (cantidad > 100) {
-        /*Personalizar*/
-        alert("Numero invalido");
-    } else {
-        cantidad++;
-        input.value = cantidad;
-    }
-}
-
-function lessCantidad(boton) {
-    var input = boton.siblings()[1];
-    /*Obtener el input hermano para no afectar los demas*/
-    var cantidad = parseInt(input.value);
-    if (cantidad == 0) {
-        /*Personalizar*/
-        alert("Numero invalido");
-    } else {
-        cantidad--;
-        input.value = cantidad;
-    }
-}
 
 function addShopping(boton) {
-    var input = boton.siblings()[1];
+    var input = boton.siblings()[0];
     var idProducto = boton.val();
 
-    var cantidad = input.value;
-    var productInformation = {
-        'idProducto': idProducto,
-        'cantidad': cantidad
-    };
+    var cantidad = parseInt(input.value);
+    //console.log(cantidad);
+    if (cantidad <= 0 || cantidad > 1000) {
+        //  console.log(input);
+        input.classList.add('is-invalid');
+    } else {
+        //console.log(valid);
+        input.classList.remove('is-invalid');
 
-    var data = JSON.stringify(productInformation);
-    //console.log(data);
+        var productInformation = {
+            'idProducto': idProducto,
+            'cantidad': cantidad
+        };
 
-    $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        url: '/addProducto',
-        type: 'POST',
-        contentType: 'application/json',
-        dataType: 'json',
-        data: data,
-        success: function(response) {
-            console.log(response);
-            html = '<div class="alert alert-' + response.estatus + ' col-12 alert-dismissable">';
-            html += '<button type="button" class="close" data-dismiss="alert">&times;</button>' + response.message;
-            html += '</div>';
-            $('#message').html(html);
-            $('#sizeCar').text(response.cantidad);
-            $('#message').focus();
-        }
-    });
+        var data = JSON.stringify(productInformation);
+        //console.log(data);
 
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: '/addProducto',
+            type: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: data,
+            success: function(response) {
+                console.log(response);
+                showMessages(response);
+                $('#sizeCar').text(response.cantidad);
+            }
+        });
+    }
+}
+
+function showMessages(response) {
+    html = '<div class="alert alert-' + response.estatus + ' col-12 alert-dismissable">';
+    html += '<button type="button" class="close" data-dismiss="alert">&times;</button>' + response.message;
+    html += '</div>';
+    $('#message').html(html);
+    $('#message').focus();
 }

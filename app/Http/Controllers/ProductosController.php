@@ -19,12 +19,6 @@ class ProductosController extends Controller
      */
     protected $session;
 
-    public function __construct()
-    {
-        //$this->middleware('auth');
-    }
-
-
     public function index()
     {
         $this->session=\Auth::check();
@@ -101,15 +95,39 @@ class ProductosController extends Controller
         $productos=Producto::where('idCategoria', $idCategoria)->get();
         $data=[
           'code'=>200,
-          'status'=>'success',
+          'estatus'=>'success',
           'productos'=> $productos,
           'session'=> $session
         ];
         return response()->json($data, $data['code']);
     }
 
-    public function showProductByCategory($idCategoria=1)
+    public function find($producto)
     {
+        $session=\Auth::check();
+        $productos=Producto::where('producto', 'like', ['%'.$producto.'%'])
+        ->orWhere('descripcion', 'like', ['%'.$producto.'%'])->get();
+        $cantidad=count($productos);
+        if (is_object($productos) && $cantidad>0) {
+            $data=[
+            'estatus'=>'success',
+            'code'=>200,
+            'cantidad'=>$cantidad,
+            'message'=>'Se encontraron '.$cantidad.' posibles resultados',
+            'productos'=>$productos,
+            'session'=>$session
+          ];
+        } else {
+            $data=[
+            'estatus'=>'warning',
+            'code'=>404,
+            'message'=>'No se encontraron resultados',
+            'productos'=>$productos,
+            'session'=>$session
+          ];
+        }
+
+        return response()->json($data, $data['code']);
     }
 
     /**

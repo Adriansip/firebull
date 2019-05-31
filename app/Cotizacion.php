@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cotizacion extends Model
 {
-  protected $table = 'cotizaciones';
+    protected $table = 'cotizaciones';
 
-  protected $fillable = ['idCliente','noArticulos'];
+    protected $fillable = ['idCotizacion','idCliente','noArticulos'];
 
-  protected $primaryKey = 'idCotizacion';
+    protected $primaryKey = 'idCotizacion';
 
-  public function cliente()
-  {
-    return $this->belongsTo(Cliente::class,'idCliente');
-  }
+    public function cliente()
+    {
+        return $this->belongsTo(Cliente::class, 'idCliente');
+    }
 }

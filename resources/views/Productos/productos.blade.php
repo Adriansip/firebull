@@ -30,18 +30,21 @@
         <li class="nav-item">
             <a class="nav-link" id="ojos-tab" data-toggle="tab" href="#ojos" role="tab" aria-controls="ojos" value="5">Proteccion para la ojos</a>
         </li>
+        <li class="nav-item" style="display: none;" id="nav-item-find">
+            <a class="nav-link" id="find-tab" data-toggle="tab" href="#find" role="tab" aria-controls="find" value="0">Busquedas</a>
+        </li>
     </ul>
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="consumibles" role="tabpanel" aria-labelledby="consumibles-tab">
             <div class="row" id="contentProduct"></div>
             <div class="row" id="contentProductLogin"></div>
-
         </div>
     </div>
     <div class="tab-pane fade" id="cabeza" role="tabpanel" aria-labelledby="cabeza-tab"></div>
     <div class="tab-pane fade" id="manos" role="tabpanel" aria-labelledby="manos-tab"></div>
     <div class="tab-pane fade" id="cintura" role="tabpanel" aria-labelledby="cintura-tab"></div>
     <div class="tab-pane fade" id="ojos" role="tabpanel" aria-labelledby="ojos-tab"></div>
+    <div class="tab-pane fade" id="find" role="tabpanel" aria-labelledby="find-tab"></div>
 </div>
 @endsection
 @section('scripts')
