@@ -9,6 +9,21 @@ use App\DetallesCotizacion;
 
 class CotizacionController extends Controller
 {
+    public function index(Request $request)
+    {
+        $cotizaciones= Cotizacion::paginate(3);
+        if ($request->ajax()) {
+            return response()->json(view('Cotizaciones.cotizacion', compact('cotizaciones'))->render());
+        }
+        return view('Cotizaciones.cotizacion', compact('cotizaciones'));
+    }
+
+    public function show()
+    {
+        $cotizaciones= Cotizacion::all()->load('usuario');
+        return $cotizaciones;
+    }
+
     public function store(Request $request)
     {
         $user=\Auth::user();
@@ -35,10 +50,10 @@ class CotizacionController extends Controller
           ];
         } else {
             $data=[
-          'status'=>'error',
-          'code'=> 404,
-          'message' => 'Surgio un error al generar su solicitud, intentelo mas tarde'
-        ];
+            'status'=>'error',
+            'code'=> 404,
+            'message' => 'Surgio un error al generar su solicitud, intentelo mas tarde'
+            ];
         }
         return response()->json($data, $data['code']);
     }

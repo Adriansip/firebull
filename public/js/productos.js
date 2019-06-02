@@ -26,7 +26,8 @@ function getProductos(idCategoria) {
         type: 'GET',
         dataType: 'json',
         success: function(data) {
-            //console.log(data);
+            console.log("token");
+            console.log($('meta[name="csrf-token"]').attr('content'));
             drawProductos(data.productos, data.session);
         },
         error: function(data) {

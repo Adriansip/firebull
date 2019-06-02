@@ -3,17 +3,23 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\DetallesCotizacion;
 
 class Cotizacion extends Model
 {
     protected $table = 'cotizaciones';
 
-    protected $fillable = ['idCotizacion','idCliente','noArticulos'];
+    protected $fillable = ['idCotizacion','idCliente','noArticulos','atendido'];
 
     protected $primaryKey = 'idCotizacion';
 
-    public function cliente()
+    public function usuario()
     {
-        return $this->belongsTo(Cliente::class, 'idCliente');
+        return $this->belongsTo(User::class, 'idCliente', 'id');
+    }
+
+    public function detalles()
+    {
+        return $this->hasMany(DetallesCotizacion::class, 'idCotizacion');
     }
 }

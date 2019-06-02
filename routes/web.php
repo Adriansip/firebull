@@ -42,6 +42,9 @@ Route::group(['middleware'=>['auth']], function () {
     Route::get('/destroySession', 'ShoppingCarController@destroy');
     Route::post('/saveCotizacion', 'CotizacionController@store');
 });
+//Meter arriba
+Route::get('/cotizaciones', 'CotizacionController@index');
+Route::resource('/detalles', 'DetallesController');
 
 Route::get("/nosotros", function () {
     return view('Nosotros.nosotros');
