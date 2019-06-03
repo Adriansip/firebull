@@ -46,6 +46,13 @@ Route::group(['middleware'=>['auth']], function () {
 Route::get('/cotizaciones', 'CotizacionController@index');
 Route::resource('/detalles', 'DetallesController');
 
+
+/*
+TEST eMAIL
+*/
+Route::get('/testEmail', 'DetallesController@testEmail');
+
+
 Route::get("/nosotros", function () {
     return view('Nosotros.nosotros');
 });

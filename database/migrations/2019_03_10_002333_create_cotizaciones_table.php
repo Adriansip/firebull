@@ -18,6 +18,9 @@ class CreateCotizacionesTable extends Migration
             $table->integer('idCliente')->unsigned()->nullable();
             $table->integer('noArticulos');
             $table->boolean('atendido')->default(false);
+            $table->float('subtotal')->nullable();
+            $table->float('iva')->nullable();
+            $table->float('total')->nullable();
             $table->timestamps();
 
             $table->foreign('idCliente')

@@ -132,6 +132,9 @@ function procesarCotizacion() {
             dataType: 'json',
             success: function(response) {
                 console.log(response);
+                var html = '<div class="alert alert-' + response.estatus + ' col-12">';
+                html += response.message + '</div>';
+                $('#messageHome').html(html).focus();
             },
             error: function(response) {
                 console.log(response.responseJSON);

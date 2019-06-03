@@ -30,7 +30,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" onclick="atender()">Atender</button>
+                <button type="button" class="btn btn-primary" onclick="atender()" data-dismiss="modal">Atender</button>
             </div>
         </div>
     </div>

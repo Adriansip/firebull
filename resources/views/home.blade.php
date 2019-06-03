@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @section('content')
+<div class="row" id="messageHome" tabindex="0">
+
+</div>
 <div class="row">
     <div class="nav flex-column nav-pills col-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
         <a class="nav-link active" id="v-pills-cotizacion-tab" data-toggle="pill" href="#v-pills-cotizacion" role="tab" aria-controls="v-pills-cotizacion" aria-selected="true">Cotizaciones</a>
