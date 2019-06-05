@@ -17,23 +17,22 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
 Auth::routes();
 
 Route::group(['middleware'=>['admin']], function () {
     Route::get('/home', 'HomeController@index')->name('home');
-    Route::get("/createp", function () {
-        return view('createproducto');
-    });
-
-    Route::post("/create", 'ProductosController@store');
+    Route::get('/productos/crear', 'ProductosController@create');
+    Route::get('/categorias/listar', 'CategoriaController@listar');
+    Route::resource('/categorias', 'CategoriaController');
+    Route::post("/productos", 'ProductosController@store');
 });
 
-Route::get("/productos", 'ProductosController@index');
-Route::get("/productos/show/{idCategoria}", 'ProductosController@show');
-Route::get("/productos/{producto}", 'ProductosController@find');
+Route::get("/productos/show/{idCategoria}", 'ProductosController@showByCategoria');
+Route::get("/productos/id/{idProducto}", 'ProductosController@show');
+Route::get("/productos/find/{producto}", 'ProductosController@find');
 
 Route::group(['middleware'=>['auth']], function () {
+    Route::get('/productos', 'ProductosController@index');
     /*Variables de session*/
     Route::post('/addProducto', 'ShoppingCarController@addShoppingCar');
     Route::get('/getSession', 'ShoppingCarController@getSession');
@@ -41,16 +40,11 @@ Route::group(['middleware'=>['auth']], function () {
     Route::get('/deleteProducto/{item}', 'ShoppingCarController@deleteItem');
     Route::get('/destroySession', 'ShoppingCarController@destroy');
     Route::post('/saveCotizacion', 'CotizacionController@store');
+    //Meter arriba
+    Route::get('/cotizaciones/{idCotizacion}', 'CotizacionController@show');
+    Route::get('/cotizaciones', 'CotizacionController@index');
+    Route::resource('/detalles', 'DetallesController');
 });
-//Meter arriba
-Route::get('/cotizaciones', 'CotizacionController@index');
-Route::resource('/detalles', 'DetallesController');
-
-
-/*
-TEST eMAIL
-*/
-Route::get('/testEmail', 'DetallesController@testEmail');
 
 
 Route::get("/nosotros", function () {

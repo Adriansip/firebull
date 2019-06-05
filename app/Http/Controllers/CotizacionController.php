@@ -11,17 +11,22 @@ class CotizacionController extends Controller
 {
     public function index(Request $request)
     {
-        $cotizaciones= Cotizacion::paginate(3);
+        $cotizaciones= Cotizacion::orderBy('idCotizacion', 'DESC')->paginate(5);
         if ($request->ajax()) {
             return response()->json(view('Cotizaciones.cotizacion', compact('cotizaciones'))->render());
         }
         return view('Cotizaciones.cotizacion', compact('cotizaciones'));
     }
 
-    public function show()
+    public function show($idCotizacion)
     {
-        $cotizaciones= Cotizacion::all()->load('usuario');
-        return $cotizaciones;
+        $cotizaciones = Cotizacion::find($idCotizacion);
+        $data=[
+          'estatus'=>'success',
+          'code'=>200,
+          'cotizacion'=> $cotizaciones
+        ];
+        return response()->json($data, $data['code']);
     }
 
     public function store(Request $request)

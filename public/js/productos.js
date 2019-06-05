@@ -41,7 +41,7 @@ function findProductos(producto) {
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-        url: '/productos/' + producto,
+        url: '/productos/find/' + producto,
         type: 'GET',
         dataType: 'json',
         success: function(data) {

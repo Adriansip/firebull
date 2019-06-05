@@ -59,7 +59,7 @@ class DetallesController extends Controller
             $cotizacion->detalles[$i]->save();
         }
 
-        $this->email='adrian.cruz.islas@gmail.com';
+        $this->email=$cotizacion->usuario->email;
         /*MAndar el email y Actualizar el estatus de la cotizacion*/
         $this->sendEmail($cotizacion, $subtotal);
 
@@ -78,7 +78,7 @@ class DetallesController extends Controller
         $data=[
           'estatus'=>'success',
           'code'=>200,
-          'message'=>'Cotizacion enviada correctamente'
+          'message'=>'Cotizacion enviada correctamente a '.$cotizacion->usuario->email
         ];
         return response()->json($data, $data['code']);
     }

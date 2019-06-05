@@ -17,7 +17,7 @@ class ShoppingCarController extends Controller
         } else {
             $productos=null;
         }
-        return view('productos.shoppingCar', compact('productos'));
+        return view('Productos.shoppingCar', compact('productos'));
     }
 
     public function addShoppingCar(Request $request)

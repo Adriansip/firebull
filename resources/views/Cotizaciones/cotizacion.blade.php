@@ -11,19 +11,23 @@
         <tbody>
             @foreach ($cotizaciones as $cotizacion)
             @if($cotizacion->atendido==0)
-                <tr class="table-danger">
+                <tr class="table-danger text-center">
                     @else
-                <tr>
+                <tr class="text-center">
                     @endif
                     <td>{{$cotizacion->idCotizacion}}</td>
                     <td>{{$cotizacion->usuario->name}}</td>
                     <td>{{$cotizacion->noArticulos}}</td>
-                    <td>{{$cotizacion->created_at}}</td>
+                    <td>
+                        <?php
+			                     setlocale(LC_ALL,"es_ES","esp");
+			                        echo $fecha = strftime( "%d de %B de %Y - %T ",strtotime($cotizacion->created_at) );
+			                           ?> </td>
                     <td>
                         @if($cotizacion->atendido==0)
-                            <button data-toggle="modal" data-target="#modalCotizacion" class="atender btn btn-sm btn-success" value="{{$cotizacion->idCotizacion}}" onclick="detallesCotizacion($(this))">Atender</button>
+                            <button data-toggle="modal" data-target="#modalCotizacion" class="atender btn btn-sm btn-success" value="{{$cotizacion->idCotizacion}}" onclick="detallesCotizacion($(this),true)">Atender</button>
                             @else
-                            <button data-toggle="modal" data-target="#modalCotizacion" class="ver btn btn-sm btn-info" value={{$cotizacion->idCotizacion}}>Ver info</button>
+                            <button data-toggle="modal" data-target="#modalCotizacion" class="ver btn btn-sm btn-info" value={{$cotizacion->idCotizacion}} onclick="detallesCotizacion($(this))">Ver info</button>
                             @endif
                     </td>
                 </tr>
@@ -32,3 +36,5 @@
     </table>
     {{$cotizaciones->links()}}
     @include('Cotizaciones.modalCotizacion')
+    <script type="text/javascript" src="{{asset('js/cotizaciones.js')}}">
+    </script>

@@ -1,44 +1,68 @@
-var route = "/cotizaciones";
 var idCotizacion;
-$(document).ready(function() {
-    cargarTabla(1, route);
-    $('.footer').css('display', 'none');
-});
 
-$(document).on('click', '.pagination a', function(e) {
-    //console.log('click');
-    e.preventDefault();
-    var page = $(this).attr('href').split('page=')[1];
-    cargarTabla(page, route);
+$(document).ready(function() {
+    option = 'cotizaciones';
+    route = '/cotizaciones';
 });
 
 function atender() {
-    //Validar datos
     procesarCotizacion();
 }
-
-function detallesCotizacion(boton) {
+/*Funcion para ver los detalles de la cotizacion,
+ya sea para atenderlo o solo ver informacion, depende
+del estatus de atendido*/
+function detallesCotizacion(boton, isAtender) {
     //console.log(boton[0]);
     idCotizacion = boton[0].value;
     var html = '';
     $.get('/detalles/' + idCotizacion, function(response) {
-        //console.log(response);
+        //  console.log(response);
         response.forEach(function(item, index) {
             html += '<tr class="text-center fila">';
             html += '<td>' + (index + 1) + '</td>';
             html += '<td class="cantidad">' + item.cantidad + '</td>';
             html += '<td class="ids">' + item.idProducto + '</td>';
             html += '<td>' + item.producto.producto + '</td>';
-            html += '<td>';
-            //            html += '<div class="form-control">';
-            html += '<input type="number" step="any" class="form-control text-center precio" onChange="calcularTotal($(this),' + item.cantidad + ')" onkeyup="calcularTotal($(this),' + item.cantidad + ')" value="0">';
-            html += '<div class="invalid-feedback">Inserta un numero valido</div>';
-            //          html += '</div>';
-            html += '</td>';
-            html += '<td><input type="number" class="form-control text-center total" value="0"></td>';
+            if (isAtender) {
+                html += '<td>';
+                //            html += '<div class="form-control">';
+                html += '<input type="number" step="any" class="form-control text-center precio" onChange="calcularTotal($(this),' + item.cantidad + ')" onkeyup="calcularTotal($(this),' + item.cantidad + ')" value="0">';
+                html += '<div class="invalid-feedback">Inserta un numero valido</div>';
+                //          html += '</div>';
+                html += '</td>';
+                html += '<td><input type="number" class="form-control text-center total" value="0" disabled></td>';
+            } else {
+                html += '<td>$ ' + item.precioUnitario + '</td>';
+                html += '<td>$ ' + item.total + '</td>';
+            }
             html += '</tr>';
         });
         $('#modalTable tbody').html(html);
+        if (!isAtender) {
+            getCotizacion(idCotizacion);
+        }
+    });
+}
+
+/*Traer el registro de la cotizacion*/
+function getCotizacion(idCotizacion) {
+    $.get(route + "/" + idCotizacion, function(response) {
+        //console.log(response);
+        var html = '<tr class="text-center">';
+        html += '<td colspan="5">Subtotal</td>';
+        html += '<td>$ ' + response.cotizacion.subtotal + '</td>';
+        html += '</tr>';
+
+        html += '<tr class="text-center">';
+        html += '<td colspan="5">IVA</td>';
+        html += '<td>' + response.cotizacion.iva + ' %</td>';
+        html += '</tr>';
+
+        html += '<tr class="text-center">';
+        html += '<td colspan="5">Total</td>';
+        html += '<td>$ ' + response.cotizacion.total + '</td>';
+        html += '</tr>';
+        $('#modalTable tbody').append(html);
     });
 }
 
@@ -54,32 +78,14 @@ function calcularTotal(input, cantidad) {
     }
 }
 
-function cargarTabla(page, route) {
-    $.ajax({
-        url: route + '?page=' + page,
-        type: 'GET',
-        dataType: 'json',
-        success: function(response) {
-            $('#tblContainer').html(response);
-            //  console.log(response);
-        },
-        error: function(response) {
-            console.log('error');
-            console.log(response);
-        }
-    });
-}
-
+/*Extraer cada fila del modal, para llenar el JSON,
+y enviarlo por ajax al controlador*/
 function getData() {
     var cotizaciones = [];
     var cantidades = $('.fila .cantidad');
-    //console.log(cantidades);
     var ids = $('.fila .ids');
-    //console.log(ids);
     var precios = $('.fila .precio');
-    //console.log(precios);
     var totales = $('.fila .total');
-    //console.log(totales);
 
     for (var i = 0; i < cantidades.length; i++) {
         var cantidad = parseFloat(cantidades[i].textContent);
@@ -106,6 +112,7 @@ function getData() {
     return JSON.stringify(cotizaciones);
 }
 
+/*Validar que todos los campos, esten llenos*/
 function validarDatos(cantidad, id, precio, total) {
     if (cantidad > 0 && id > 0 && precio > 0 && total > 0) {
         return true;
@@ -118,8 +125,13 @@ function validarDatos(cantidad, id, precio, total) {
     }
 }
 
+/*Hacer todo el proceso para realizar la cotizacion, incluyendo
+la actualizacion de los resultados (precios, totales)
+asi como el estatus de la cotizacion (atendido=1)
+tambien se envia el correo electronico*/
 function procesarCotizacion() {
     var data = getData();
+    $('#messageHome').html('<div class="alert alert-warning col-12">Procesando solicitud, espere...</div>').focus();
     if (data != null) {
         $.ajax({
             headers: {
@@ -131,10 +143,11 @@ function procesarCotizacion() {
             contentType: 'application/json',
             dataType: 'json',
             success: function(response) {
-                console.log(response);
+                //console.log(response);
                 var html = '<div class="alert alert-' + response.estatus + ' col-12">';
                 html += response.message + '</div>';
                 $('#messageHome').html(html).focus();
+                cargarTabla(1, route);
             },
             error: function(response) {
                 console.log(response.responseJSON);

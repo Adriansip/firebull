@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Input;
 use App\Producto;
+use App\Categoria;
 use Redirect;
 use Validator;
 use Session;
@@ -30,8 +31,15 @@ class ProductosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+        $productos= Producto::paginate(5);
+
+        if ($request->ajax()) {
+            return response()->json(view('Productos.crear', compact('productos'))->render());
+        }
+        //return dd($productos);
+        return view('Productos.crear', compact('productos'));
     }
 
     /**
@@ -42,43 +50,54 @@ class ProductosController extends Controller
      */
     public function store(Request $request)
     {
-        $producto=new producto;
+        $producto=new Producto();
 
-        $producto->producto=Input::get('producto');
-        $producto->descripcion=Input::get('descripcion');
+        $producto->producto=$request->producto;
+        $producto->idCategoria=$request->categoria;
 
-        $file=$request->file('imagen');
+        if ($request->has('descripcion')) {
+            $producto->descripcion=$request->descripcion;
+        }
 
-        $archivo= array('image' => Input::file('imagen'));
+        if ($request->file('imagen')) {
+            $file=$request->file('imagen');
+            $nombre = $file->getClientOriginalName();
+        }
 
+        $archivo = array('image' => Input::file('imagen'));
         //Reglas de valdiacion para la imagen
         $reglas = array(
-                'image' => 'mimes:png,jpeg,jpg,bmp'
+                'image' => 'mimes:png,jpeg,jpg,bmp|max:3000'
         );
 
         $validar=Validator::make($archivo, $reglas);
 
         if ($validar->fails()) {
-            Session::flash('message', 'Formato de imagen o tamaño excedido (png, jpg, bmp)');
-            Session::flash('class', 'danger');
+            $data=[
+              'message'=>'Formato de imagen o tamaño excedido (png, jpg, bmp)',
+              'estatus'=>'warning',
+              'code'=> 400
+            ];
         } else {
-            //Nombre original del archivo
-            $nombre = $file->getClientOriginalName();
-
             //Mandar a BD solo el nombre
-            $producto->rutaimagen=$nombre;
+            $producto->imagen=$nombre;
 
             if ($producto->save()) {
                 $file->move(public_path().'/imagenes/', $nombre);
-                Session::flash('message', 'Producto guradado');
-                Session::flash('class', 'success');
+                $data=[
+                  'estatus'=>'success',
+                  'code'=>200,
+                  'message'=>$producto->producto.' almacenado correctamente'
+                ];
             } else {
-                Session::flash('message', 'Ha ocurrido un error');
-                Session::flash('class', 'danger');
+                $data=[
+                  'message'=> 'Ha ocurrido un problema al intentar guardar',
+                  'estatus'=> 'danger',
+                  'code'=>404
+                ];
             }
         }
-
-        return Redirect::to('/createp');
+        return response()->json($data, $data['code']);
     }
 
     /**
@@ -87,9 +106,13 @@ class ProductosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function show($id)
+    {
+        $producto=Producto::find($id);
+        return response()->json($producto, 200);
+    }
 
-
-    public function show($idCategoria)
+    public function showByCategoria($idCategoria)
     {
         $session=\Auth::check();
         $productos=Producto::where('idCategoria', $idCategoria)->get();
@@ -150,7 +173,6 @@ class ProductosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
     }
 
     /**
