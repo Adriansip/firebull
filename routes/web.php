@@ -25,6 +25,8 @@ Route::group(['middleware'=>['admin']], function () {
     Route::get('/categorias/listar', 'CategoriaController@listar');
     Route::resource('/categorias', 'CategoriaController');
     Route::post("/productos", 'ProductosController@store');
+    Route::post("/productos/{idProducto}", 'ProductosController@update');
+    Route::delete("/productos/{idProducto}", 'ProductosController@destroy');
 });
 
 Route::get("/productos/show/{idCategoria}", 'ProductosController@showByCategoria');

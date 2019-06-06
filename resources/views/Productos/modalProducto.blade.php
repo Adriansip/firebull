@@ -24,6 +24,7 @@
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="imagen" name="imagen" lang="es">
                                         <label class="custom-file-label" for="customFileLang">Seleccionar Archivo</label>
+                                        <small class="email-help">Maximo 3 Mb</small>
                                     </div>
                                 </div>
                             </div>
@@ -32,7 +33,7 @@
                             <div class="row">
                                 <div class="form-group col-12">
                                     <label for="producto">Producto <span style="color:red;">*</span></label>
-                                    <input type="text" name="producto" class="form-control" pattern="[a-zA-Z0-9 ]+" required maxlength="50" placeholder="Nombre del producto">
+                                    <input type="text" name="producto" class="form-control" pattern="[a-zA-Z0-9ñ ]+" required maxlength="50" placeholder="Nombre del producto">
                                     <div class="invalid-feedback">Este campo es obligatorio y debe contener solo caracteres alfanumericos</div>
                                 </div>
                                 <div class="form-group col-12">

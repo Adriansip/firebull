@@ -51,7 +51,6 @@ class ProductosController extends Controller
     public function store(Request $request)
     {
         $producto=new Producto();
-
         $producto->producto=$request->producto;
         $producto->idCategoria=$request->categoria;
 
@@ -59,45 +58,62 @@ class ProductosController extends Controller
             $producto->descripcion=$request->descripcion;
         }
 
-        if ($request->file('imagen')) {
-            $file=$request->file('imagen');
-            $nombre = $file->getClientOriginalName();
-        }
+        /*Funcion retorna el nombre, o una data
+        con informacion del error de validacion*/
+        $nombre=$this->validarImagen($request);
 
-        $archivo = array('image' => Input::file('imagen'));
-        //Reglas de valdiacion para la imagen
-        $reglas = array(
-                'image' => 'mimes:png,jpeg,jpg,bmp|max:3000'
-        );
-
-        $validar=Validator::make($archivo, $reglas);
-
-        if ($validar->fails()) {
-            $data=[
-              'message'=>'Formato de imagen o tamaño excedido (png, jpg, bmp)',
-              'estatus'=>'warning',
-              'code'=> 400
-            ];
-        } else {
+        if (!is_array($nombre)) {
             //Mandar a BD solo el nombre
             $producto->imagen=$nombre;
+        } else {
+            return response()->json($nombre, $nombre['code']);
+        }
 
-            if ($producto->save()) {
+        if ($producto->save()) {
+            if ($request->file('imagen')) {
+                $file=$request->file('imagen');
+                $nombre = $file->getClientOriginalName();
                 $file->move(public_path().'/imagenes/', $nombre);
-                $data=[
+            }
+            $data=[
                   'estatus'=>'success',
                   'code'=>200,
                   'message'=>$producto->producto.' almacenado correctamente'
                 ];
-            } else {
-                $data=[
+        } else {
+            $data=[
                   'message'=> 'Ha ocurrido un problema al intentar guardar',
                   'estatus'=> 'danger',
                   'code'=>404
                 ];
-            }
         }
         return response()->json($data, $data['code']);
+    }
+
+    public function validarImagen($request)
+    {
+        if ($request->file('imagen')) {
+            $file=$request->file('imagen');
+            $nombre = $file->getClientOriginalName();
+
+            $archivo = array('image' => Input::file('imagen'));
+            //Reglas de valdiacion para la imagen
+            $reglas = array('image' => 'mimes:png,jpeg,jpg,bmp|max:3000');
+
+            $validar=Validator::make($archivo, $reglas);
+
+            if ($validar->fails()) {
+                $data=[
+                  'message'=>'Formato de imagen (png, jpg, bmp) incorrecto o tamaño excedido (Max 3Mb)',
+                  'estatus'=>'warning',
+                  'code'=> 400
+                ];
+                return $data;
+            } else {
+                return $nombre;
+            }
+        }
+        return 'no disponible.png';
     }
 
     /**
@@ -173,6 +189,46 @@ class ProductosController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $producto=Producto::find($id);
+        $producto->producto=$request->producto;
+        $producto->idCategoria=$request->categoria;
+
+        if ($request->has('descripcion')) {
+            $producto->descripcion=$request->descripcion;
+        }
+
+        if ($request->file('imagen')) {
+            /*Funcion retorna el nombre, o una data
+            con informacion del error de validacion*/
+            $nombre=$this->validarImagen($request);
+
+            if (!is_array($nombre)) {
+                //Mandar a BD solo el nombre
+                $producto->imagen=$nombre;
+            } else {
+                return response()->json($nombre, $nombre['code']);
+            }
+        }
+
+        if ($producto->save()) {
+            if ($request->file('imagen')) {
+                $file=$request->file('imagen');
+                $nombre = $file->getClientOriginalName();
+                $file->move(public_path().'/imagenes/', $nombre);
+            }
+            $data=[
+                  'estatus'=>'success',
+                  'code'=>200,
+                  'message'=>$producto->producto.' actualizado correctamente'
+                ];
+        } else {
+            $data=[
+                  'message'=> 'Ha ocurrido un problema al intentar actualizar',
+                  'estatus'=> 'danger',
+                  'code'=>404
+                ];
+        }
+        return response()->json($data, $data['code']);
     }
 
     /**
@@ -183,6 +239,11 @@ class ProductosController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Producto::destroy($id);
+        return $data=[
+          'estatus'=>'success',
+          'code'=>200,
+          'message'=>'Registro eliminado correctamente'
+      ];
     }
 }

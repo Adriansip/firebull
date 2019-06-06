@@ -1,4 +1,5 @@
 var idCotizacion;
+var page;
 /*comprobar si es, cotizaciones, productos, etc.
 Se llena desde cada js independiente*/
 var route;
@@ -6,7 +7,7 @@ var option;
 $(document).on('click', '.pagination a', function(e) {
     //console.log(option);
     e.preventDefault();
-    var page = $(this).attr('href').split('page=')[1];
+    page = $(this).attr('href').split('page=')[1];
     if (option == 'cotizaciones') {
         cargarTabla(route, page);
     } else if (option == 'productos') {

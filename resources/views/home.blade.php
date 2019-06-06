@@ -22,7 +22,7 @@
         <div class="tab-pane fade" id="v-pills-producto" role="tabpanel" aria-labelledby="v-pills-producto-tab">
             <div class="row mt-2 mb-2">
                 <div class="col-12 ml-5 text-left">
-                    <button data-toggle="modal" data-target="#modalProducto" class="btn btn-md btn-primary btn-block col-md-4 col-12" name="button" id="btnNuevo"><i class="medium material-icons">add</i> Nuevo Producto</button>
+                    <button data-toggle="modal" data-target="#modalProducto" class="btn btn-md btn-primary btn-block col-md-4 col-12" name="button" id="btnNuevo">Nuevo Producto</button>
                 </div>
             </div>
             <div class="table-responsive pl-5" id='productosContainer'>

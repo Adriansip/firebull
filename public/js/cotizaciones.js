@@ -147,7 +147,7 @@ function procesarCotizacion() {
                 var html = '<div class="alert alert-' + response.estatus + ' col-12">';
                 html += response.message + '</div>';
                 $('#messageHome').html(html).focus();
-                cargarTabla(1, route);
+                cargarTabla(page, route);
             },
             error: function(response) {
                 console.log(response.responseJSON);
