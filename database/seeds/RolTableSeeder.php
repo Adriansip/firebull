@@ -12,12 +12,16 @@ class RolTableSeeder extends Seeder
      */
     public function run()
     {
-      $rol      = new Rol();
-      $rol->rol = 'admin';
-      $rol->save();
+        $rol      = new Rol();
+        $rol->rol = 'superadmin';
+        $rol->save();
 
-      $rol      = new Rol();
-      $rol->rol = 'cliente';
-      $rol->save();
+        $rol      = new Rol();
+        $rol->rol = 'admin';
+        $rol->save();
+
+        $rol      = new Rol();
+        $rol->rol = 'cliente';
+        $rol->save();
     }
 }

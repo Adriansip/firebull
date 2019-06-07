@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('styles')
 <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 @endsection
 @section('content')
 <h1 class="text-center">Panel de administracion</h1>
@@ -11,7 +12,9 @@
     <div class="nav flex-column nav-pills col-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
         <a class="nav-link active" id="v-pills-cotizacion-tab" data-toggle="pill" href="#v-pills-cotizacion" role="tab" aria-controls="v-pills-cotizacion" aria-selected="true">Cotizaciones</a>
         <a class="nav-link" id="v-pills-producto-tab" data-toggle="pill" href="#v-pills-producto" role="tab" aria-controls="v-pills-producto" aria-selected="false">Productos</a>
-        <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Messages</a>
+        @if(Auth::check() && Auth::user()->rol->rol=='superadmin')
+        <a class="nav-link" id="v-pills-usuario-tab" data-toggle="pill" href="#v-pills-usuario" role="tab" aria-controls="v-pills-usuario" aria-selected="false">Usuarios</a>
+        @endif
         <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
     </div>
     <div class="tab-content col-10" id="v-pills-tabContent">
@@ -29,7 +32,10 @@
 
             </div>
         </div>
-        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
+        <div class="tab-pane fade" id="v-pills-usuario" role="tabpanel" aria-labelledby="v-pills-usuario-tab">
+            <div class="table-responsive pl-5" id='usuariosContainer'>
+            </div>
+        </div>
         <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
     </div>
 </div>

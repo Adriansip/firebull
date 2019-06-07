@@ -64,7 +64,7 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                @if(Auth::user()->rol->rol=='admin')
+                                @if(Auth::user()->rol->rol=='admin' || Auth::user()->rol->rol=='superadmin')
                                     @include('Admin.menuOpciones')
                                     @else
                                     <!--Opciones de usuario normal-->

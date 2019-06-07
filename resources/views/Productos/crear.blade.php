@@ -1,4 +1,3 @@
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <table class="table table-sm table-striped" id="tblProductos">
     <thead>
         <tr class="text-center">

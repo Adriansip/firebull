@@ -17,7 +17,7 @@ class AdminMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->rol()->first()->rol=='admin') {
+        if (Auth::check() && (Auth::user()->rol->rol=='admin' || Auth::user()->rol->rol='superadmin')) {
             return $next($request);
         }
         return redirect('/productos');

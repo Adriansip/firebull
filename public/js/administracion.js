@@ -12,6 +12,8 @@ $(document).on('click', '.pagination a', function(e) {
         cargarTabla(route, page);
     } else if (option == 'productos') {
         getTableProductos(route, page);
+    } else if (option == 'usuarios') {
+        getTableUsuarios(route, page);
     }
 });
 
@@ -27,6 +29,10 @@ $('#v-pills-cotizacion-tab').click(function() {
 
 $('#v-pills-producto-tab').click(function() {
     getTableProductos('/productos/crear', 1);
+});
+
+$('#v-pills-usuario-tab').click(function() {
+    getTableUsuarios('/usuarios', 1);
 });
 
 /*Al iniciar el panel de administracion,
@@ -63,6 +69,24 @@ function getTableProductos(route, page) {
             //console.log(response);
             $('#productosContainer').html(response);
             $('#tblProductos').DataTable({
+                "paging": false
+            });
+        },
+        error: function(response) {
+            console.log(response);
+        }
+    });
+}
+
+function getTableUsuarios(route, page) {
+    $.ajax({
+        url: route + '?page=' + page,
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            //console.log(response);
+            $('#usuariosContainer').html(response);
+            $('#tblUsuarios').DataTable({
                 "paging": false
             });
         },

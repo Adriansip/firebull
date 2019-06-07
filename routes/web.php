@@ -27,6 +27,8 @@ Route::group(['middleware'=>['admin']], function () {
     Route::post("/productos", 'ProductosController@store');
     Route::post("/productos/{idProducto}", 'ProductosController@update');
     Route::delete("/productos/{idProducto}", 'ProductosController@destroy');
+    Route::resource('/usuarios', 'UserController');
+    Route::resource('/roles', 'RolesController');
 });
 
 Route::get("/productos/show/{idCategoria}", 'ProductosController@showByCategoria');

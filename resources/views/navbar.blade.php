@@ -18,6 +18,7 @@
     <input class="form-control mr-sm-2" type="search" placeholder="Buscar producto" aria-label="Search" id="txtfindProducto">
     <button class="btn btn-outline-success my-2 my-sm-0" type="button" id="btnFindProducto">Buscar</button>
 </form>
+<!-- Si es admin o super admin cambiar carrito por cotizaciones pendientes-->
 @if(Auth::check())
 <div class="img-responsive ml-4">
     <a href="{{url('/shoppingCar')}}">
