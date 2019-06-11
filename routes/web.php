@@ -12,10 +12,33 @@
 */
 
 use App\Http\Controller\Auth\ProductosController;
+use App\Ciudad;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/estados', function () {
+    return App\Estado::all();
+});
+Route::get('/ciudades/{idEstado}', function ($idEstado) {
+    return App\Ciudad::where('idEstado', $idEstado)->get();
+});
+
+Route::get("/nosotros", function () {
+    return view('Nosotros.nosotros');
+});
+
+Route::get("/contacto", function () {
+    return view('contacto');
+});
+
+Route::get("/clientes", 'ClientesController@index');
+Route::get("/cursos", 'CursosController@index');
+
+Route::get("/productos/show/{idCategoria}", 'ProductosController@showByCategoria');
+Route::get("/productos/id/{idProducto}", 'ProductosController@show');
+Route::get("/productos/find/{producto}", 'ProductosController@find');
 
 Auth::routes();
 
@@ -24,16 +47,12 @@ Route::group(['middleware'=>['admin']], function () {
     Route::get('/productos/crear', 'ProductosController@create');
     Route::get('/categorias/listar', 'CategoriaController@listar');
     Route::resource('/categorias', 'CategoriaController');
-    Route::post("/productos", 'ProductosController@store');
-    Route::post("/productos/{idProducto}", 'ProductosController@update');
-    Route::delete("/productos/{idProducto}", 'ProductosController@destroy');
+    Route::post('/productos', 'ProductosController@store');
+    Route::post('/productos/{idProducto}', 'ProductosController@update');
+    Route::delete('/productos/{idProducto}', 'ProductosController@destroy');
     Route::resource('/usuarios', 'UserController');
     Route::resource('/roles', 'RolesController');
 });
-
-Route::get("/productos/show/{idCategoria}", 'ProductosController@showByCategoria');
-Route::get("/productos/id/{idProducto}", 'ProductosController@show');
-Route::get("/productos/find/{producto}", 'ProductosController@find');
 
 Route::group(['middleware'=>['auth']], function () {
     Route::get('/productos', 'ProductosController@index');
@@ -48,19 +67,12 @@ Route::group(['middleware'=>['auth']], function () {
     Route::get('/cotizaciones/{idCotizacion}', 'CotizacionController@show');
     Route::get('/cotizaciones', 'CotizacionController@index');
     Route::resource('/detalles', 'DetallesController');
-});
 
+    Route::get('/perfil', function () {
+        return view('Clientes.perfil');
+    });
 
-Route::get("/nosotros", function () {
-    return view('Nosotros.nosotros');
+    Route::get('/clientes/{idUsuario}', 'ClientesController@show');
+    Route::post('/clientes', 'ClientesController@storage');
+    Route::post('/clientes/{idUsuario}', 'ClientesController@update');
 });
-
-Route::get("/items", function () {
-    return view('productos');
-});
-Route::get("/contacto", function () {
-    return view('contacto');
-});
-
-Route::get("/clientes", 'ClientesController@index');
-Route::get("/cursos", 'CursosController@index');

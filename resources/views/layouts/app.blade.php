@@ -66,17 +66,17 @@
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 @if(Auth::user()->rol->rol=='admin' || Auth::user()->rol->rol=='superadmin')
                                     @include('Admin.menuOpciones')
-                                    @else
-                                    <!--Opciones de usuario normal-->
-                                    @endif
-                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                    @elseif(Auth::user()->rol->rol=='cliente')
+                                        @include('Clientes.menuOpciones')
+                                        @endif
+                                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
+                                            {{ __('Logout') }}
+                                        </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            @csrf
+                                        </form>
                             </div>
                         </li>
                         @endguest

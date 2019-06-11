@@ -1,8 +1,6 @@
 var backgroundOriginal;
 
-$(document).ready(function() {
-    console.log("Cargado");
-});
+$(document).ready(function() {});
 
 $('.img-clientes').hover(function() {
     backgroundOriginal = $(this).parent('.alert').css('background');

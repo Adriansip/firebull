@@ -14,19 +14,19 @@ class ClienteTableSeeder extends Seeder
      */
     public function run()
     {
-        $ciudad=Ciudad::find(1);
-        $user=User::find(2);
+        $ciudad=Ciudad::find(6);
+        $user=User::find(3);
 
         $cliente=new Cliente();
         $cliente->nombre='Cliente 1';
         $cliente->email='cliente1@gmail.com';
         $cliente->telefono='5587778403';
         $cliente->idUsuario=$user->id;
-        $cliente->idCiudad=$ciudad->idCiudad;
+        $cliente->idCiudad=4;
         $cliente->direccion='5 de mayo #31';
         $cliente->RFC='ADR080795D03';
         $cliente->logo='fire.png';
-        $cliente->imagen='xchemfondo.jpg';
+        $cliente->url='www.google.com';
         $cliente->save();
 
         $cliente=new Cliente();
@@ -34,11 +34,11 @@ class ClienteTableSeeder extends Seeder
         $cliente->email='cliente2@gmail.com';
         $cliente->telefono='5587778403';
         $cliente->idUsuario=$user->id;
-        $cliente->idCiudad=$ciudad->idCiudad;
+        $cliente->idCiudad=2;
         $cliente->direccion='5 de mayo #31';
         $cliente->RFC='ADR080795D03';
         $cliente->logo='fire.png';
-        $cliente->imagen='reactivos.png';
+        $cliente->url='www.youtube.com';
         $cliente->save();
 
         $cliente=new Cliente();
@@ -50,7 +50,7 @@ class ClienteTableSeeder extends Seeder
         $cliente->direccion='5 de mayo #31';
         $cliente->RFC='ADR080795D03';
         $cliente->logo='fire.png';
-        $cliente->imagen='logo.jpg';
+        $cliente->url='www.yahoo.com';
         $cliente->save();
 
         $cliente=new Cliente();
@@ -62,7 +62,7 @@ class ClienteTableSeeder extends Seeder
         $cliente->direccion='5 de mayo #31';
         $cliente->RFC='ADR080795D03';
         $cliente->logo='fire.png';
-        $cliente->imagen='puma.png';
+        $cliente->url='www.google.com';
         $cliente->save();
 
         $cliente=new Cliente();
@@ -74,7 +74,7 @@ class ClienteTableSeeder extends Seeder
         $cliente->direccion='5 de mayo #31';
         $cliente->RFC='ADR080795D03';
         $cliente->logo='fire.png';
-        $cliente->imagen='xchemfondo.jpg';
+        $cliente->url='www.youtube.com';
         $cliente->save();
 
         $cliente=new Cliente();
@@ -86,7 +86,7 @@ class ClienteTableSeeder extends Seeder
         $cliente->direccion='5 de mayo #31';
         $cliente->RFC='ADR080795D03';
         $cliente->logo='fire.png';
-        $cliente->imagen='xchemfondo.jpg';
+        $cliente->url='www.yahoo.com';
         $cliente->save();
 
         $cliente=new Cliente();
@@ -98,7 +98,7 @@ class ClienteTableSeeder extends Seeder
         $cliente->direccion='5 de mayo #31';
         $cliente->RFC='ADR080795D03';
         $cliente->logo='fire.png';
-        $cliente->imagen='logo.jpg';
+        $cliente->url='www.google.com';
         $cliente->save();
 
         $cliente=new Cliente();
@@ -110,7 +110,7 @@ class ClienteTableSeeder extends Seeder
         $cliente->direccion='5 de mayo #31';
         $cliente->RFC='ADR080795D03';
         $cliente->logo='fire.png';
-        $cliente->imagen='reactivos.png';
+        $cliente->url='www.youtube.com';
         $cliente->save();
     }
 }

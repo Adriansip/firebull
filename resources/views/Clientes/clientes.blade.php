@@ -25,7 +25,7 @@
         <div class="alert img-responsive col-md-3">
             @endif
             <div class="titulo text-center">{{$clientes[$i]->nombre}}</div>
-            <img src="{{asset('imagenes/')}}/{{$clientes[$i]->imagen}}" class="img-fluid p-1 img-clientes" alt="">
+            <img src="{{asset('imagenes/')}}/{{$clientes[$i]->logo}}" class="img-fluid p-1 img-clientes" alt="">
             <div class="datosContacto text-center">{{$clientes[$i]->direccion}} ({{$clientes[$i]->ciudad->ciudad}}, {{$clientes[$i]->ciudad->estado->estado}})</div>
         </div>
         @endfor
@@ -35,7 +35,7 @@
     @if(count($clientes)>=4)
         @for($i=0; $i<4; $i++) <div class="alert img-responsive col-md-3">
             <div class="titulo text-center">{{$clientes[$i]->nombre}}</div>
-            <img src="{{asset('imagenes/')}}/{{$clientes[$i]->imagen}}" class="img-fluid p-1 img-clientes" alt="">
+            <img src="{{asset('imagenes/')}}/{{$clientes[$i]->logo}}" class="img-fluid p-1 img-clientes" alt="">
             <div class="datosContacto text-center">{{$clientes[$i]->direccion}} ({{$clientes[$i]->ciudad->ciudad}}, {{$clientes[$i]->ciudad->estado->estado}})</div>
 </div>
 @endfor

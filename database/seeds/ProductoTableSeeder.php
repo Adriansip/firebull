@@ -46,7 +46,7 @@ class ProductoTableSeeder extends Seeder
         $producto->producto='Casco de aluminio';
         $producto->idCategoria=$categoria2->idCategoria;
         $producto->descripcion='Casco de aluminio con proteccion para la cabeza';
-        $producto->imagen='casco_aluminio.png';
+        $producto->imagen='casco_infra.png';
         $producto->oferta=true;
         $producto->save();
 

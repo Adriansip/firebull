@@ -18,12 +18,27 @@ class CiudadTableSeeder extends Seeder
         $ciudad->save();
 
         $ciudad=new Ciudad();
+        $ciudad->ciudad='Asientos';
+        $ciudad->idEstado=1;
+        $ciudad->save();
+
+        $ciudad=new Ciudad();
         $ciudad->ciudad='Ensenada';
         $ciudad->idEstado=2;
         $ciudad->save();
 
         $ciudad=new Ciudad();
+        $ciudad->ciudad='Mexicali';
+        $ciudad->idEstado=2;
+        $ciudad->save();
+
+        $ciudad=new Ciudad();
         $ciudad->ciudad='La Paz';
+        $ciudad->idEstado=3;
+        $ciudad->save();
+
+        $ciudad=new Ciudad();
+        $ciudad->ciudad='Los cabos';
         $ciudad->idEstado=3;
         $ciudad->save();
     }
