@@ -73,6 +73,10 @@ Route::group(['middleware'=>['auth']], function () {
     });
 
     Route::get('/clientes/{idUsuario}', 'ClientesController@show');
+
     Route::post('/clientes', 'ClientesController@storage');
     Route::post('/clientes/{idUsuario}', 'ClientesController@update');
 });
+
+Route::get('/mis_cotizaciones/{idCotizacion}/{fecha?}', 'CotizacionController@showByUserOrDate');
+Route::get('/mis_cotizaciones', 'ClientesController@cotizaciones');

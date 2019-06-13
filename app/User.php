@@ -37,4 +37,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Cliente::class, 'id', 'idUsuario');
     }
+
+    public function cotizaciones()
+    {
+        return $this->hasMany(Cotizacion::class, 'idUsuario', 'id');
+    }
 }

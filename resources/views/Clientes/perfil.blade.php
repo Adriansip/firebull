@@ -23,7 +23,7 @@
                          ?>" disabled>
             </div>
             <div class="form-group col-md-6 col-12">
-                <button type="button" class="mt-4 btn btn-md btn-success " name="button">Actualizar</button>
+                <button type="button" class="mt-4 btn btn-lg btn-block btn-success " name="button">Actualizar</button>
             </div>
         </div>
     </div>

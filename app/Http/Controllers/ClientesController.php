@@ -16,6 +16,11 @@ class ClientesController extends Controller
         return view('Clientes.clientes', compact('clientes'));
     }
 
+    public function cotizaciones()
+    {
+        return view('Clientes.cotizaciones');
+    }
+
     public function show($idUsuario)
     {
         $cliente=Cliente::where('idUsuario', $idUsuario)->first();

@@ -15,7 +15,7 @@ class CreateCotizacionesTable extends Migration
     {
         Schema::create('cotizaciones', function (Blueprint $table) {
             $table->increments('idCotizacion');
-            $table->integer('idCliente')->unsigned()->nullable();
+            $table->integer('idUsuario')->unsigned()->nullable();
             $table->integer('noArticulos');
             $table->boolean('atendido')->default(false);
             $table->float('subtotal')->nullable();
@@ -23,8 +23,8 @@ class CreateCotizacionesTable extends Migration
             $table->float('total')->nullable();
             $table->timestamps();
 
-            $table->foreign('idCliente')
-                ->references('idCliente')->on('clientes')
+            $table->foreign('idUsuario')
+                ->references('id')->on('users')
                 ->onDelete('set null');
         });
     }
@@ -37,7 +37,7 @@ class CreateCotizacionesTable extends Migration
     public function down()
     {
         Schema::table('cotizaciones', function (Blueprint $table) {
-            $table->dropForeign('cotizaciones_idCliente_foreign');
+            $table->dropForeign('cotizaciones_idUsuario_foreign');
         });
         Schema::dropIfExists('cotizaciones');
     }

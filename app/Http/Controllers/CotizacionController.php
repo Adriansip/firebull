@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Cotizacion;
@@ -29,12 +30,54 @@ class CotizacionController extends Controller
         return response()->json($data, $data['code']);
     }
 
+    public function showByUserOrDate($idCotizacion, $fecha=null)
+    {
+        if (!is_null($fecha)) {
+            $fecha=strtotime('+1 day', strtotime($fecha));
+            $fecha=date('Y-m-j', $fecha);
+            $cotizaciones=Cotizacion::where('created_at', '<=', $fecha)
+            ->where('idUsuario', \Auth::user()->id)->with('detalles', 'detalles.producto')->get();
+            if (is_object($cotizaciones) && count($cotizaciones)>0) {
+                $data=[
+                  'status'=>'success',
+                  'code' => 200,
+                  'cotizacion'=>$cotizaciones
+                ];
+            } else {
+                $data=[
+                  'status'=>'warning',
+                  'code'=>404,
+                  'message'=>'Ningun resultado encontrado en esa fecha'
+                ];
+            }
+        } else {
+            $cotizaciones = Cotizacion::where('idCotizacion', $idCotizacion)
+            ->where('idUsuario', \Auth::user()->id)->with('detalles', 'detalles.producto')->get();
+            if (is_object($cotizaciones)) {
+                $data=[
+                  'cotizacion'=>$cotizaciones,
+                  'detalles'=> $cotizaciones,
+                  'status'=>'success',
+                  'message'=>'1 resultados encontrados',
+                  'code'=>200
+                ];
+            } else {
+                $data=[
+                'status'=>'warning',
+                'code'=>404,
+                'message'=>'Ningun resultado encontrado con ese numero de cotizacion'
+              ];
+            }
+        }
+        return response()->json($data, $data['code']);
+    }
+
     public function store(Request $request)
     {
         $user=\Auth::user();
         $productos=$request->toArray();
         $cotizacion=new Cotizacion();
-        $cotizacion->idCliente=$user->id;
+        $cotizacion->idUsuario=$user->id;
         $cotizacion->noArticulos=count($productos);
         if ($cotizacion->save()) {
             foreach ($productos as $producto) {
